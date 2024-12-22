@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Es broma</title>
+    <style>
+        body {
+            background-color: #ffffff;
+            color: #333;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow-x: hidden;
+            padding-bottom: 100px; /* Espacio adicional para permitir desplazamiento */
+        }
+        h1 {
+            font-size: 3rem;
+            color: #007bff;
+            margin-bottom: 20px;
+            white-space: nowrap; /* Evita que el texto se divida en varias líneas */
+            overflow: hidden;
+            text-overflow: ellipsis; /* Agrega puntos suspensivos si el texto es demasiado largo */
+        }
+        p {
+            font-size: 1.5rem;
+            color: #666;
+        }
+        .emoji {
+            font-size: 2rem;
+        }
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            padding: 20px;
+            width: 100%;
+        }
+
+        /* Estilos exclusivos para la galería */
+        #galeria {
+            padding: 50px 0;
+            background-color: #f8f9fa;
+            text-align: center;
+            width: 100%;
+            overflow: auto;
+        }
+
+        #galeria .container {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Dos columnas por defecto */
+            grid-gap: 15px;
+            width: 100%;
+            margin-bottom: 20px;
+        }
+
+        #galeria .cuadrado-perfecto {
+            position: relative;
+            width: 100%;
+            padding-top: 100%; /* Relación de aspecto 1:1 para cuadrados perfectos */
+            overflow: hidden;
+            border-radius: 5px; /* Esquinas redondeadas */
+            box-shadow: 0 4px 15px rgba(0, 123, 255, 0.5); /* Sombra azul */
+            transition: transform 0.3s ease;
+        }
+
+        #galeria .cuadrado-perfecto img {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Asegura que las imágenes se ajusten al cuadrado */
+            filter: blur(8px); /* Efecto borroso inicial */
+            transition: filter 0.3s ease;
+        }
+
+        #galeria .cuadrado-perfecto h4 {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 18px;
+            width: 100%;
+            text-align: center;
+            transition: opacity 0.3s ease;
+        }
+
+        #galeria .cuadrado-perfecto h4.show {
+            opacity: 1; /* Se muestra cuando la clase "show" está presente */
+        }
+
+        #galeria .cuadrado-perfecto h4.hide {
+            opacity: 0; /* Se oculta cuando la clase "hide" está presente */
+        }
+
+        /* Media Queries para hacer la galería más responsiva */
+        @media (max-width: 768px) {
+            #galeria .container {
+                grid-template-columns: repeat(2, 1fr); /* Dos columnas en tablets y pantallas medianas */
+            }
+        }
+
+        @media (max-width: 576px) {
+            #galeria .container {
+                grid-template-columns: 1fr; /* Una sola columna en pantallas pequeñas */
+            }
+            
+            h1 {
+                font-size: 2rem; /* Reducción del tamaño del texto en dispositivos móviles */
+            }
+        }
+
+        /* Estilo para el texto "I LOVE YOU" parpadeante */
+        .love-text {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #ff69b4;
+            text-align: center;
+            animation: blink 1.5s infinite alternate;
+            margin-top: 50px;
+        }
+
+        /* Animación de parpadeo */
+        @keyframes blink {
+            0% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+            100% {
+                opacity: 1;
+            }
+        }
+
+        /* Estilo para la fecha */
+        .date {
+            font-size: 1.2rem;
+            font-style: italic;
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            color: #666;
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <h1>Es broma, Honey! <span class="emoji">😂</span></h1>
+    <p>Solo quería recordarte estas 3 cosas:⬇️⬇️ </p>
+
+    <!-- Galería de imágenes -->
+    <section id="galeria" class="galeria-section">
+        <div class="container">
+            <div class="cuadrado-perfecto" onclick="toggleBlur(this)">
+                <img src="img/1.jpg" alt="Imagen 1">
+                <h4 class="show">Toca para quitar el efecto</h4>
+            </div>
+            <div class="cuadrado-perfecto" onclick="toggleBlur(this)">
+                <img src="img/2.jpg" alt="Imagen 2">
+                <h4 class="show">Toca para quitar el efecto</h4>
+            </div>
+            <div class="cuadrado-perfecto" onclick="toggleBlur(this)">
+                <img src="img/3.jpg" alt="Imagen 3">
+                <h4 class="show">Toca para quitar el efecto</h4>
+            </div>
+        </div>
+    </section>
+
+    <!-- Texto I LOVE YOU parpadeante con corazones flotantes -->
+    <div class="love-text">
+        I LOVE YOU
+    </div>
+
+    <!-- Fecha -->
+    <div class="date">
+        22 de dic, 2024
+    </div>
+
+    <script>
+        // Función para quitar el efecto borroso al hacer clic en cualquier parte de la imagen
+        function toggleBlur(element) {
+            const img = element.querySelector('img');
+            const text = element.querySelector('h4');
+
+            // Si la imagen tiene el filtro blur, se elimina y se oculta el texto
+            if (img.style.filter === 'blur(8px)') {
+                img.style.filter = 'blur(0)'; // Elimina el blur
+                text.classList.remove('show'); // Oculta el texto
+                text.classList.add('hide'); // Asegura que el texto desaparezca
+            } else {
+                img.style.filter = 'blur(8px)'; // Vuelve a aplicar el blur
+                text.classList.remove('hide'); // Muestra el texto
+                text.classList.add('show'); // Asegura que el texto aparezca
+            }
+        }
+    </script>
+</body>
+</html>
